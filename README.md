@@ -1,7 +1,7 @@
 # OSMPoliticalMap
 Automaticaly generate World Political Map in QGIS for printing from OpenStreetMap planet file (see the result in https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
 
-Set of bash and python scripts for automatic generation of wall world political map in scale 1:30 000 000, A0 size, in Winkel tripel map projection. Map created is as QGIS project, and all data are stored in shapefiles.
+Set of bash and python scripts for automatic generation of wall world political map in scale 1:30 000 000, A0 size, in Winkel tripel map projection. Map created is in QGIS project, and all data are stored in shapefiles.
 
 ![alt tag](osm_political_map.png)
 
