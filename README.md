@@ -33,8 +33,9 @@ osmconvert
 # Usage:
 1. Download all scripts and data (*.sh, *.py, *.csv, *.qgs).
 2. Delete folder PK if exists, all data will be created inside it.
+3. Run main script: ./_0_PoliticalMap.sh
 3. At one point you will be asked to enter ISO alpha2 codes of countries that were not correctly extraced.
-4. When scripts finnish, open QGIS project file "OSM World Political Map_for_print.qgs" and do all manual edits you want.
+4. When scripts finish, open QGIS project file "OSM World Political Map_for_print.qgs" and do all manual edits you want. Print the map.
 
 Send any problem or comment to dtutic@geof.hr. It will be much appreceated.
 
