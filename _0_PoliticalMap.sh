@@ -1,5 +1,14 @@
 #!/bin/bash
 
+mkdir ./PK
+echo "Starting download of the OSM planet file ..."
+wget http://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf --output-document=planet.osm.pbf
+echo "Starting conversion of pbf to o5m ..."
+osmconvert --drop-author planet.osm.pbf -o=planet.osm.o5m
+rm -f planet.osm.pbf
+echo "Conversion of pbf to o5m done."
+echo "-------------------------------------------------"
+
 ./_1_Graticule.sh
 ./_2_Coastlines.sh
 ./_3_Countries.sh
