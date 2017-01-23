@@ -28,7 +28,8 @@ GDAL/OGR library,
 Python, 
 osmfilter, 
 osmconvert, 
-osmtogeojson
+osmtogeojson,
+pyproj
 
 # Running time: 
 ~6hrs, can take much longer with slow internet or processor, at lest 150GB of free disk is needed.
