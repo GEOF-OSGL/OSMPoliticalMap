@@ -21,13 +21,14 @@ Intel® Core™ i7-5500U CPU @ 2.40GHz × 4,
 16 GB RAM
 
 # Required packages:
-QGIS v.2.4 or higher, 
+QGIS 2.4 or higher, 
 GRASS 6.4.3 or higher, 
 ogr2og2, 
-GDAL/OGR library, 
+GDAL/OGR library 2.1 or higher, 
 Python, 
 osmfilter, 
-osmconvert, 
+osmconvert,
+nodejs,
 osmtogeojson,
 pyproj
 
