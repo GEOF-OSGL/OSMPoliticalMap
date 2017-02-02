@@ -1,7 +1,10 @@
 import ogr,sys,csv
 
-#usage python _5_2_clean_rivers.py rivers_list.csv rivers_shapefile.shp
-#script writes changes to rivers_shapefile.shp directly
+# Usage: python _5_2_clean_rivers.py [rivers_names_list_file] [rivers_shapefile.shp]
+# Writes changes to rivers_shapefile.shp directly
+
+# Current list of words for feature deletion: basin, watershed, syst, canal, kanal, carreteras, network, reservoir, pipeline
+# TODO: put words in array and simplify code
 
 rivers = open(sys.argv[1])
 reader = csv.reader(rivers)
@@ -34,6 +37,5 @@ for feature in layer:
         layer.DeleteFeature(feature.GetFID())
    
 dataSource.Destroy()
-
 
 
