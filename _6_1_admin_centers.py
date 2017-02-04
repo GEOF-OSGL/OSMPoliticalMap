@@ -48,7 +48,6 @@ with open(sys.argv[1]) as data:
             if i.startswith("v="):
                 b = i.split("\"")
                 iso = b[1]
-                #print "alpha2: ",iso
                 if iso in iso_list:
                     candidate = True  
 
@@ -58,7 +57,6 @@ with open(sys.argv[1]) as data:
          if i.startswith("ref="):
              b = i.split("\"")
              ref = b[1]
-             #print ref
              ref_found = True
 
     if ref_found and candidate and relation: 
@@ -70,6 +68,3 @@ with open(sys.argv[1]) as data:
            counter = counter + 1
 
 print "\" -o=osm_capitals.osm"
-
-
-
