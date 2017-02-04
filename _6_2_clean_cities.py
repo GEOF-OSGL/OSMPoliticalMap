@@ -1,6 +1,6 @@
 import ogr,sys,urllib2,csv
 
-# Usage: capitals.shp cities.shp population
+# Usage: python _6_2_clean_cities.py [capitals.shp] [cities.shp] [population threshold]
 
 driver = ogr.GetDriverByName('ESRI Shapefile')
 capitalSource = driver.Open(sys.argv[1], 1)
@@ -11,7 +11,7 @@ city = citySource.GetLayer()
 
 population = int(sys.argv[3])
 
-
+# if the population thresh (default = 500 000) is 0 then set the filter in QGIS layer that meets needs
 for c in city:
     c_pop = c.GetField('population')
     try:
@@ -23,6 +23,7 @@ for c in city:
             print 'Invalid value for population ',c.GetField('name'), c.GetField('name_en'), c_pop
         city.DeleteFeature(c.GetFID())
 
+# delete cities that are already capitals to avoid duplicates
 for cap in capital:
     cap_id = cap.GetField('osm_id')
     city.ResetReading() 
@@ -33,5 +34,4 @@ for cap in capital:
 
 capitalSource.Destroy()
 citySource.Destroy()
-
 
