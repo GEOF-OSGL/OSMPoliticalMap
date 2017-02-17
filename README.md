@@ -42,7 +42,9 @@ pyproj
 
 # Copyright and licences:
 Shapefiles are licensed under ODbL (http://opendatacommons.org/licenses/odbl/)
+
 Map is licenced under CC-BY-SA (http://creativecommons.org/licenses/by-sa/4.0/legalcode)
+
 Programs and scripts are licenced under GNU GPL (http://www.gnu.org/licenses/gpl-3.0.en.html)
 
 Copyright (C) 2016, 2017 Dražen Tutić, Tomislav Jogun, Ana Kuveždić Divjak
