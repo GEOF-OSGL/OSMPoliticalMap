@@ -1,4 +1,20 @@
-import ogr,sys,urllib2,csv
+#Copyright (C) 2016, 2017 Drazen Tutic, Tomislav Jogun, Ana Kuvezdic Divjak
+#This file is part of OSMPoliticalMap software.
+#
+#OSMPoliticalMap is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#OSMPoliticalMap is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with OSMPoliticalMap.  If not, see <http://www.gnu.org/licenses/>.
+
+import ogr,sys,csv
 
 # Usage: set_fields.py comma_separated_lis_of_fields_to_keep labels=yes|labels=no shapefile.shp
 keep = sys.argv[1]
@@ -36,7 +52,9 @@ if extra_fields:
      layer.CreateField(label_yField)
      label_rField = ogr.FieldDefn("_label_r", ogr.OFTReal)
      layer.CreateField(label_rField)
-     print "Created fields of real type: _label_x, _label_y, _label_r"
+     label_wField = ogr.FieldDefn("wrap", ogr.OFTInteger)
+     layer.CreateField(label_wField)
+     print sys.argv[3],": created fields for label placement: _label_x, _label_y, _label_r, wrap"
     
 dataSource.SyncToDisk()
 dataSource.Destroy()
