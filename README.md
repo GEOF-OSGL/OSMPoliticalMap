@@ -36,9 +36,9 @@ pyproj
 
 # Usage:
 1. Download zip of the project and extract it on partition with >150GB free space.
-2. Data for new map will be created in project subfolder NEW_MAP
-3. Run main script: ./_0_PoliticalMap.sh
-3. When scripts finish, open QGIS project file "OSM_World_Political_Map.qgs" and do all manual edits you want (e.g. change label placement, change colours etc.). 
+2. Run main script: ./_0_PoliticalMap.sh
+3. Data for new map will be created in project subfolder NEW_MAP
+4. When scripts finish, open QGIS project file "OSM_World_Political_Map.qgs" and do all manual edits you want (e.g. change label placement, change colours etc.). 
 
 Send any problem or comment to dtutic@geof.hr. It will be much appreceated.
 
