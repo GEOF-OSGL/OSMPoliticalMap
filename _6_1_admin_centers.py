@@ -1,3 +1,19 @@
+#Copyright (C) 2016, 2017 Drazen Tutic, Tomislav Jogun, Ana Kuvezdic Divjak
+#This file is part of OSMPoliticalMap software.
+#
+#OSMPoliticalMap is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#OSMPoliticalMap is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with OSMPoliticalMap.  If not, see <http://www.gnu.org/licenses/>.
+
 import ogr,sys,urllib2,csv
 
 print "#!/bin/bash"
@@ -16,7 +32,7 @@ for i in data:
    iso_list.append(i[1])
 counter = 0
 
-print "osmfilter "+sys.argv[1]+" --keep-relations= --keep-ways= --keep-nodes=\"",
+print "osmfilter "+sys.argv[1]+" --ignore-dependencies --keep-relations= --keep-ways= --keep-nodes=\"",
 
 ref_list = []
 
@@ -68,3 +84,4 @@ with open(sys.argv[1]) as data:
            counter = counter + 1
 
 print "\" -o=osm_capitals.osm"
+
