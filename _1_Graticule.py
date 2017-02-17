@@ -1,13 +1,30 @@
+#Copyright (C) 2016, 2017 Drazen Tutic, Tomislav Jogun, Ana Kuvezdic Divjak
+#This file is part of OSMPoliticalMap software.
+#
+#OSMPoliticalMap is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#OSMPoliticalMap is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with OSMPoliticalMap.  If not, see <http://www.gnu.org/licenses/>.
+
 # create graticule for the whole world
-# USAGE: python _1_Graticule.py step density
+# USAGE: python _1_Graticule.py step density lang
 # "step" is integer distance between meridians and parallels
 # "density" is float distance between vertices in meridians and paralles
-# output will be in directory PK/01_graticule with shapefiles frame_final.shp, meridians_final.shp, parallels_final.shp, tropics_final.shp
+# output will be in directory NEW_MAP/01_graticule with shapefiles frame_final.shp, meridians_final.shp, parallels_final.shp, tropics_final.shp
 
 import ogr, osr, sys, os
 
 step = int(sys.argv[1])
 density = float(sys.argv[2])
+lang_name = 'name_'+sys.argv[3]
 
 driver = ogr.GetDriverByName('ESRI Shapefile')
 
@@ -37,24 +54,25 @@ outLayer.CreateField(ogr.FieldDefn('longitude', ogr.OFTInteger))
 # get the output layer's feature definition
 outLayerDefn = outLayer.GetLayerDefn()
 
-for lon in range(-180,180+1,step):
-    line = ogr.Geometry(ogr.wkbLineString)
-    lat = -90
-    line.AddPoint(lon, lat)
-    while lat < 90 - density:
-        lat = lat + density
+for lon in range(-180,180+1):
+    if lon % step == 0:
+        line = ogr.Geometry(ogr.wkbLineString)
+        lat = -90
         line.AddPoint(lon, lat)
-    lat = 90
-    line.AddPoint(lon, lat)
-    # create a new feature
-    outFeature = ogr.Feature(outLayerDefn)
-    # set the geometry and attribute
-    outFeature.SetGeometry(line)
-    outFeature.SetField('longitude', lon)
-    # add the feature to the shapefile
-    outLayer.CreateFeature(outFeature)
-    # destroy the features and get the next input feature
-    outFeature.Destroy()
+        while lat < 90 - density:
+            lat = lat + density
+            line.AddPoint(lon, lat)
+        lat = 90
+        line.AddPoint(lon, lat)
+        # create a new feature
+        outFeature = ogr.Feature(outLayerDefn)
+        # set the geometry and attribute
+        outFeature.SetGeometry(line)
+        outFeature.SetField('longitude', lon)
+        # add the feature to the shapefile
+        outLayer.CreateFeature(outFeature)
+        # destroy the features and get the next input feature
+        outFeature.Destroy()
 
 # close the shapefile
 outDataSet.Destroy()  
@@ -75,24 +93,25 @@ outLayer.CreateField(ogr.FieldDefn('latitude', ogr.OFTInteger))
 # get the output layer's feature definition
 outLayerDefn = outLayer.GetLayerDefn()
 
-for lat in range(-90,90+1,step):
-    line = ogr.Geometry(ogr.wkbLineString)
-    lon = -180
-    line.AddPoint(lon, lat)
-    while lon < 180 - density:
-        lon = lon + density
+for lat in range(-90,90+1):
+    if lat % step == 0:
+        line = ogr.Geometry(ogr.wkbLineString)
+        lon = -180
         line.AddPoint(lon, lat)
-    lon = 180
-    line.AddPoint(lon, lat)
-    # create a new feature
-    outFeature = ogr.Feature(outLayerDefn)
-    # set the geometry and attribute
-    outFeature.SetGeometry(line)
-    outFeature.SetField('latitude', lat)
-    # add the feature to the shapefile
-    outLayer.CreateFeature(outFeature)
-    # destroy the features and get the next input feature
-    outFeature.Destroy()
+        while lon < 180 - density:
+            lon = lon + density
+            line.AddPoint(lon, lat)
+        lon = 180
+        line.AddPoint(lon, lat)
+        # create a new feature
+        outFeature = ogr.Feature(outLayerDefn)
+        # set the geometry and attribute
+        outFeature.SetGeometry(line)
+        outFeature.SetField('latitude', lat)
+        # add the feature to the shapefile
+        outLayer.CreateFeature(outFeature)
+        # destroy the features and get the next input feature
+        outFeature.Destroy()
 
 # close the shapefile
 outDataSet.Destroy()     
@@ -108,10 +127,7 @@ outDataSet = driver.CreateDataSource(outputShapefile)
 outLayer = outDataSet.CreateLayer('tropics', srs, geom_type=ogr.wkbLineString, options=['ENCODING=UTF8'])
 
 # Add the field for longitude label
-field_name = ogr.FieldDefn("name_en", ogr.OFTString)
-field_name.SetWidth(30)
-outLayer.CreateField(field_name)
-field_name = ogr.FieldDefn("name_hr", ogr.OFTString)
+field_name = ogr.FieldDefn(lang_name, ogr.OFTString)
 field_name.SetWidth(30)
 outLayer.CreateField(field_name)
 
@@ -132,8 +148,7 @@ line.AddPoint(lon, lat)
 outFeature = ogr.Feature(outLayerDefn)
 # set the geometry and attribute
 outFeature.SetGeometry(line)
-outFeature.SetField('name_en', 'Antarctic Circle')
-outFeature.SetField('name_hr', u'Ju\u017Ena polarnica'.encode('utf-8'))
+outFeature.SetField(lang_name, 'Antarctic Circle')
 # add the feature to the shapefile
 outLayer.CreateFeature(outFeature)
 # destroy the features and get the next input feature
@@ -153,8 +168,7 @@ line.AddPoint(lon, lat)
 outFeature = ogr.Feature(outLayerDefn)
 # set the geometry and attribute
 outFeature.SetGeometry(line)
-outFeature.SetField('name_en', 'Tropic of Capricorn')
-outFeature.SetField('name_hr', u'Ju\u017Ena obratnica'.encode('utf-8'))
+outFeature.SetField(lang_name, 'Tropic of Capricorn')
 # add the feature to the shapefile
 outLayer.CreateFeature(outFeature)
 # destroy the features and get the next input feature
@@ -174,8 +188,7 @@ line.AddPoint(lon, lat)
 outFeature = ogr.Feature(outLayerDefn)
 # set the geometry and attribute
 outFeature.SetGeometry(line)
-outFeature.SetField('name_en', 'Equator')
-outFeature.SetField('name_hr', 'Ekvator')
+outFeature.SetField(lang_name, 'Equator')
 # add the feature to the shapefile
 outLayer.CreateFeature(outFeature)
 # destroy the features and get the next input feature
@@ -195,8 +208,7 @@ line.AddPoint(lon, lat)
 outFeature = ogr.Feature(outLayerDefn)
 # set the geometry and attribute
 outFeature.SetGeometry(line)
-outFeature.SetField('name_en', 'Tropic of Cancer')
-outFeature.SetField('name_hr', 'Sjeverna obratnica')
+outFeature.SetField(lang_name, 'Tropic of Cancer')
 # add the feature to the shapefile
 outLayer.CreateFeature(outFeature)
 # destroy the features and get the next input feature
@@ -216,8 +228,7 @@ line.AddPoint(lon, lat)
 outFeature = ogr.Feature(outLayerDefn)
 # set the geometry and attribute
 outFeature.SetGeometry(line)
-outFeature.SetField('name_en', 'Arctic Circle')
-outFeature.SetField('name_hr', 'Sjeverna polarnica')
+outFeature.SetField(lang_name, 'Arctic Circle')
 # add the feature to the shapefile
 outLayer.CreateFeature(outFeature)
 # destroy the features and get the next input feature
