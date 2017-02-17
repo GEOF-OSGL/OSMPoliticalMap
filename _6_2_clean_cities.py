@@ -62,7 +62,6 @@ for c in city:
     for c2 in city2:
         point_c2= c2.GetGeometryRef()
         if (point_c2.Distance(point_c) < 40000) and (c2.GetField('osm_id') != c.GetField('osm_id')):
-            print point_c2.Distance(point_c)
             pop_c = int(c.GetField('population'))
             pop_c2 = int(c2.GetField('population'))
             if pop_c > pop_c2:
