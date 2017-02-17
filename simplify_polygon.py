@@ -27,17 +27,27 @@ dataSource = driver.Open(sys.argv[3], 1)
 
 layer = dataSource.GetLayer()
 
-for feature in layer:
-    geom = feature.GetGeometryRef()
-    try:
-        if geom.Area() < small:
-            layer.DeleteFeature(feature.GetFID())
-        else:
-            feature.SetGeometryDirectly(geom.SimplifyPreserveTopology(tol))
-            layer.SetFeature(feature)
-    except:
-        layer.DeleteFeature(feature.GetFID())     
-
+if tol>0:
+    for feature in layer:
+        geom = feature.GetGeometryRef()
+        try:
+            if geom.Area() < small:
+                layer.DeleteFeature(feature.GetFID())
+            else:
+                feature.SetGeometryDirectly(geom.SimplifyPreserveTopology(tol))
+                layer.SetFeature(feature)
+        except:
+            layer.DeleteFeature(feature.GetFID()) 
+else:
+    for feature in layer:
+        geom = feature.GetGeometryRef()
+        try:
+            if geom.Area() < small:
+                layer.DeleteFeature(feature.GetFID())
+        except:
+            layer.DeleteFeature(feature.GetFID()) 
 
 dataSource.SyncToDisk()
 dataSource.Destroy()
+
+	
