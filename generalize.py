@@ -1,6 +1,22 @@
+#Copyright (C) 2016, 2017 Drazen Tutic, Tomislav Jogun, Ana Kuvezdic Divjak
+#This file is part of OSMPoliticalMap software.
+#
+#OSMPoliticalMap is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#OSMPoliticalMap is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with OSMPoliticalMap.  If not, see <http://www.gnu.org/licenses/>.
+
 import ogr,sys,math, random,os
 import numpy as np
-#from __future__ import print_function
+
 # Usage: python generalize_lines.py scale_denominator small_area_in_mm2 shapefile.shp
 
 def zig_zag(a,b,c,d): #returns true if three segments form zig-zag
@@ -17,12 +33,6 @@ def squared_length(p1,p2):
 
 def Simplify(p1,p2,p3,p4): # chose new point so that the area of intersection of input and output figure is maximal
     pt = np.zeros(2)
-    #check if point lies on line or makes symetrical zig-zag
-    if abs(polygon_area_closed(p1,p2,p3,p4)) < ZERO_AREA: #< 1E-6
-        pt[0] = (p1[0]+p4[0])*0.5
-        pt[1] = (p1[1]+p4[1])*0.5
-        return 1,pt
-    
     C1 = p2[0]*(p1[1]-p3[1])+p3[0]*(p2[1]-p4[1])-p1[0]*p2[1]+p4[0]*p3[1]
     A1 = p1[1] - p4[1]
     B1 = p4[0] - p1[0]
@@ -59,6 +69,11 @@ def Simplify(p1,p2,p3,p4): # chose new point so that the area of intersection of
             if abs(polygon_area_closed(p1,p2,p3,p4)) < ZERO_AREA:
                 pt[0] = (p1[0]+p4[0])*0.5
                 pt[1] = (p1[1]+p4[1])*0.5
+
+    if abs(polygon_area_closed(p1,p2,p3,p4)) < ZERO_AREA:
+        pt[0] = (p1[0]+p4[0])*0.5
+        pt[1] = (p1[1]+p4[1])*0.5
+
     return 1,pt
   
 def Generalize_Ring(g):
@@ -75,7 +90,7 @@ def Generalize_Ring(g):
     for i in range(1, p_len):
         p = g.GetPoint(i)
         #remove duplicate neighbour points
-        if points[j,0] != p[0] and points[j,1] != p[1]:
+        if points[j,0] != p[0] or points[j,1] != p[1]:
             j = j+1
             points[j,0] = p[0]
             points[j,1] = p[1]
@@ -172,13 +187,13 @@ def Generalize_Line(g):
     for i in range(1, p_len):
         p = g.GetPoint(i)
         #remove duplicate neighbour points
-        if points[j,0] != p[0] and points[j,1] != p[1]:
+        if points[j,0] != p[0] or points[j,1] != p[1]:
             j = j+1
             points[j,0] = p[0]
             points[j,1] = p[1]
     p_len = j+1 #final number of points in point list
     if p_len < 4:
-        return 0,g
+        return 1,g
     #calculate squared segments lengths, algorithm always change line where shorthest segment is found
     segments = np.zeros(p_len-1)
     for i in range(0, p_len-1):
@@ -294,7 +309,7 @@ def Smooth_Ring(g):
     for i in range(1, p_len):
         p = g.GetPoint(i)
         #remove duplicate neighbour points
-        if points[j,0] != p[0] and points[j,1] != p[1]:
+        if points[j,0] != p[0] or points[j,1] != p[1]:
             j = j+1
             points[j,0] = p[0]
             points[j,1] = p[1]
@@ -389,13 +404,13 @@ def Smooth_Line(g):
     for i in range(1, p_len):
         p = g.GetPoint(i)
         #remove duplicate neighbour points
-        if points[j,0] != p[0] and points[j,1] != p[1]:
+        if points[j,0] != p[0] or points[j,1] != p[1]:
             j = j+1
             points[j,0] = p[0]
             points[j,1] = p[1]
     p_len = j+1 #final number of points in point list
     if p_len < 4:
-        return 0,g
+        return 1,g
 
     ps = np.zeros(2) #temp point for calculation
     pq = np.zeros(2) #temp point for calculation
@@ -454,7 +469,7 @@ TOL_LENGTH = scale/2300 #main paramater of the algorithm
 SQR_TOL_LENGTH = TOL_LENGTH*TOL_LENGTH #squared main parameter of the algorithm
 ZERO_EPSILON = 1E-12 # treat as zero
 MIN_ANGLE = 150.*math.pi/180.
-SQR_SMOOTH_LENGTH = 5.*SQR_TOL_LENGTH
+SQR_SMOOTH_LENGTH = 20.*SQR_TOL_LENGTH
 ZERO_AREA = 1E-6
 
 driver = ogr.GetDriverByName('ESRI Shapefile')
@@ -488,7 +503,7 @@ for inFeature in inLayer:
             g = geom.GetGeometryRef(i) #polygon can have multiple rings
             for j in range(0, g.GetGeometryCount()): #iterate over rings
                 if num % 10000 == 0:
-                     print num,'\r'
+                     print num,'...',
                 num = num+1  
                 ring = g.GetGeometryRef(j) #access to a ring (closed polyline)
                 flag,simpl = Generalize_Ring(ring) 
@@ -503,7 +518,7 @@ for inFeature in inLayer:
         out_geom = ogr.Geometry(ogr.wkbPolygon) 
         for i in range(0, geom.GetGeometryCount()): #iterate over rings
             if num % 10000 == 0:
-                print num,'\r'
+                print num,'...',
             num = num + 1
             g = geom.GetGeometryRef(i) #access to a ring (closed polyline)
             flag,simpl = Generalize_Ring(g)
@@ -516,7 +531,7 @@ for inFeature in inLayer:
         out_geom = ogr.Geometry(ogr.wkbMultiLineString)
         for i in range(0, geom.GetGeometryCount()): #iterate over lines
             if num % 10000 == 0:
-                print num,'\r'
+                print num,'...',
             num = num + 1
             g = geom.GetGeometryRef(i) 
             flag,simpl = Generalize_Line(g) 
@@ -527,7 +542,7 @@ for inFeature in inLayer:
                     out_geom_exists = 1
     elif geom.GetGeometryName() == 'LINESTRING':
         if num % 10000 == 0:
-             print num,'\r'
+             print num,'...',
         num = num + 1
         line = ogr.Geometry(ogr.wkbLineString) 
         flag,simpl = Generalize_Line(geom)
