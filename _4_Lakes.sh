@@ -29,7 +29,10 @@ osmfilter planet.osm.o5m --keep= --keep="natural=water" -o=osm_lakes.osm
 echo "Converting lakes to shapefile."
 ogr2ogr --config OSM_CONFIG_FILE ../osmconf.ini -f "ESRI Shapefile" -sql "SELECT osm_id,name,name_$OSM_LANG,intermittent FROM multipolygons" -overwrite -skipfailures -lco ENCODING=UTF-8 04_lakes osm_lakes.osm
 
-echo "Reprojecting lakes to map projection..."
+echo "Deleting small polygons less than ~1 km2 on Earth..."
+python ../simplify_polygon.py 0 0.01 04_lakes/multipolygons.shp
+
+echo "Reprojecting lakes to Winkel Tripel projection..."
 python ../reproject.py 04_lakes/multipolygons.shp 04_lakes/lakes_winkel.shp
 
 echo "Performing final generalisation of lakes and deleting small ones <0.4 mm2 ..."
@@ -37,21 +40,18 @@ python ../generalize.py $OSM_SCALE 0.4 04_lakes/lakes_winkel.shp 04_lakes/lakes_
 
 # this part is to handle exception of Lake Huron which does not extract correctly in previous Shapefile
 echo "Handling exception: filtering Lake Huron from OSM planet ..."
-#osmfilter planet.osm.o5m --keep= --keep-relations="name=Lake\ Huron" -o=osm_lake_huron.osm
+osmfilter planet.osm.o5m --keep= --keep-relations="name=Lake\ Huron" -o=osm_lake_huron.osm
 
 echo "Using osmtogeojson as more robust tool to deal with complicated polygons ..."
-#nodejs --max_old_space_size=18000 `which osmtogeojson` osm_lake_huron.osm >osm_lake_huron.geojson
-#ogr2ogr -f "ESRI Shapefile" -sql "SELECT * from OGRGeoJSON WHERE name='Lake Huron'" -overwrite -skipfailures -nlt MULTIPOLYGON -lco ENCODING=UTF-8 04_lake_huron osm_lake_huron.geojson
+nodejs --max_old_space_size=18000 `which osmtogeojson` osm_lake_huron.osm >osm_lake_huron.geojson
+ogr2ogr -f "ESRI Shapefile" -sql "SELECT * from OGRGeoJSON WHERE name='Lake Huron'" -overwrite -skipfailures -nlt MULTIPOLYGON -lco ENCODING=UTF-8 04_lake_huron osm_lake_huron.geojson
 
-#python ../reproject.py 04_lake_huron/OGRGeoJSON.shp 04_lake_huron/lake_huron_winkel.shp
+python ../reproject.py 04_lake_huron/OGRGeoJSON.shp 04_lake_huron/lake_huron_winkel.shp
 
-#python ../generalize.py $OSM_SCALE 0.4 04_lake_huron/lake_huron_winkel.shp 04_lake_huron/lake_huron_final.shp
+python ../generalize.py $OSM_SCALE 0.4 04_lake_huron/lake_huron_winkel.shp 04_lake_huron/lake_huron_final.shp
 
 echo "Merging Lake Huron to lakes polygon file ..."
-#ogr2ogr -f "ESRI Shapefile" -update -append ./04_lakes/lakes_final.shp ./04_lake_huron/lake_huron_final.shp
-
-#BRISI
-ogr2ogr -f "ESRI Shapefile" -update -append ./04_lakes/lakes_final.shp ./04_lakes/lake_huron_final.shp
+ogr2ogr -f "ESRI Shapefile" -update -append ./04_lakes/lakes_final.shp ./04_lake_huron/lake_huron_final.shp
 
 echo "Cleaning unnecessary files: OGR shapefiles, filtered data in osm ...."
 rm 04_lakes/lakes_winkel.* -f
@@ -60,16 +60,15 @@ rm 04_lake_huron -rf
 
 echo "Cleaning unnecessary files: OGR shapefiles, filtered data in osm ...."
 rm 04_lakes/multipolygons.* -f
-#rm osm_lakes.osm -f
-#rm osm_lake_huron.osm -f
-#rm osm_lake_huron.geojson -f
+rm osm_lakes.osm -f
+rm osm_lake_huron.osm -f
+rm osm_lake_huron.geojson -f
 
 echo "Setting attribute fields ..."
-python ../set_fields.py osm_id,name,name_$OSM_LANG,intermittent labels=yes 04_lakes/lakes_final.shp
+python ../set_fields.py osm_id,name,name_$OSM_LANG,intermitte labels=yes 04_lakes/lakes_final.shp
 
 echo "Lakes ... Done!"
 echo "--------------------------------------------------------------------------------------------------------"
 echo
 
 cd ..
-
