@@ -41,7 +41,7 @@ pyproj
 4. When scripts finish, open QGIS project file "OSM_World_Political_Map.qgs" and do all manual edits you want (e.g. change label placement, change colours etc.). 
 
 # Copyright and licences:
-Shapefiles are licensed under ODbL (http://opendatacommons.org/licenses/odbl/)
+Data in ESRI Shapefiles are licensed under ODbL (http://opendatacommons.org/licenses/odbl/)
 
 Map is licenced under CC-BY-SA (http://creativecommons.org/licenses/by-sa/4.0/legalcode)
 
