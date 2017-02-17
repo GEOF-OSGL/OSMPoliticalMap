@@ -42,7 +42,7 @@ python ../generalize.py $OSM_SCALE 0.4 04_lakes/lakes_winkel.shp 04_lakes/lakes_
 echo "Handling exception: filtering Lake Huron from OSM planet ..."
 osmfilter planet.osm.o5m --keep= --keep-relations="name=Lake\ Huron" -o=osm_lake_huron.osm
 
-echo "Using osmtogeojson as more robust tool to deal with complicated polygons ..."
+#echo "Using osmtogeojson as more robust tool to deal with complicated polygons ..."
 nodejs --max_old_space_size=18000 `which osmtogeojson` osm_lake_huron.osm >osm_lake_huron.geojson
 ogr2ogr -f "ESRI Shapefile" -sql "SELECT * from OGRGeoJSON WHERE name='Lake Huron'" -overwrite -skipfailures -nlt MULTIPOLYGON -lco ENCODING=UTF-8 04_lake_huron osm_lake_huron.geojson
 
@@ -56,13 +56,13 @@ ogr2ogr -f "ESRI Shapefile" -update -append ./04_lakes/lakes_final.shp ./04_lake
 echo "Cleaning unnecessary files: OGR shapefiles, filtered data in osm ...."
 rm 04_lakes/lakes_winkel.* -f
 rm 04_lake_huron -rf
+rm osm_lake_huron.osm -f
+rm osm_lake_huron.geojson -f
 # end of exception for Lake Huron
 
 echo "Cleaning unnecessary files: OGR shapefiles, filtered data in osm ...."
 rm 04_lakes/multipolygons.* -f
 rm osm_lakes.osm -f
-rm osm_lake_huron.osm -f
-rm osm_lake_huron.geojson -f
 
 echo "Setting attribute fields ..."
 python ../set_fields.py osm_id,name,name_$OSM_LANG,intermitte labels=yes 04_lakes/lakes_final.shp
