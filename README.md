@@ -1,18 +1,20 @@
 # OSMPoliticalMap
-Automaticaly generate World Political Map in QGIS for printing from OpenStreetMap planet file (see the result in https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
+Automaticaly generate World Political Map in QGIS for printing from OpenStreetMap planet file (see example map https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
 
-Set of bash and python scripts for automatic generation of wall world political map in scale 1:30 000 000, A0 size, in Winkel tripel map projection. Map created is in QGIS project, and all data are stored in shapefiles.
+Set of bash and Python scripts for automatic generation of wall world political map in scale 1:30 000 000, A0 size. Map created is QGIS project, and all data are stored in ESRI shapefiles.
 
 ![alt tag](osm_political_map.png)
 
 This project intents to investigate how OpenStreetMap (OSM) planet file can be used for generating small scale "classical" maps, with example of World Political Map.
 
-Main challanges are automated cartographic generalisation, as well as getting appropriate data from OSM for desired map.
+Main challanges are automated cartographic generalisation, as well as getting appropriate data from OSM for desired map. Processes will be improved in order to achieve better final result and performance. Also, inconsistencies in or missing OSM data are detected when data is processed which then can lead to edits in OSM.
 
-This is first attempt to do such task, it will be developed in number of aspects: choosing custom map projection, choosing map scale, choosing language, improving filtering and cartographic generalisation. Also, inconsistencies in or missing OSM data are detected when data is processed which then can lead to edits in OSM.
+Resulting map is a very good starting point for creating final map, since program automate many tasks in map creation and reduce time to get desired world political map.
+
+User can set map projection, map scale and map language. 
 
 # Warning
-Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). Whole process of map generation can take many hours on standard PC.
+Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). Whole process of map generation can take many hours (~6 hrs in tested environment) on standard PC.
 
 # Tested environment:
 Debian GNU/Linux 8 (jessie) 64-bit, 
@@ -32,15 +34,11 @@ nodejs,
 osmtogeojson,
 pyproj
 
-# Running time: 
-~6hrs, can take much longer with slow internet or processor, at lest 150GB of free disk is needed.
-
 # Usage:
-1. Download all scripts and data (*.sh, *.py, *.csv, *.qgs).
-2. Delete folder PK if exists, all data will be created inside it.
+1. Download zip of the project and extract it on partition with >150GB free space.
+2. Data for new map will be created in project subfolder NEW_MAP
 3. Run main script: ./_0_PoliticalMap.sh
-3. At one point you will be asked to enter ISO alpha2 codes of countries that were not correctly extraced.
-4. When scripts finish, open QGIS project file "OSM World Political Map_for_print.qgs" and do all manual edits you want (e.g. label placement, change colours etc.). Print the map.
+3. When scripts finish, open QGIS project file "OSM_World_Political_Map.qgs" and do all manual edits you want (e.g. change label placement, change colours etc.). 
 
 Send any problem or comment to dtutic@geof.hr. It will be much appreceated.
 
