@@ -1,5 +1,5 @@
 # OSMPoliticalMap
-Automaticaly generate World Political Map in QGIS for printing from OpenStreetMap planet file (see example map https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
+Automaticaly generate World Political Map in QGIS from OpenStreetMap planet file (see example map https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
 
 Set of bash and Python scripts for automatic generation of wall world political map in scale 1:30 000 000, A0 size. Map created is QGIS project, and all data are stored in ESRI shapefiles.
 
@@ -9,7 +9,7 @@ This project intents to investigate how OpenStreetMap (OSM) planet file can be u
 
 Main challanges are automated cartographic generalisation, as well as getting appropriate data from OSM for desired map. Processes will be improved in order to achieve better final result and performance. Also, inconsistencies in or missing OSM data are detected when data is processed which then can lead to edits in OSM.
 
-Resulting map is a very good starting point for creating final map, since program automate many tasks in map creation and reduce time to get desired world political map.
+Resulting map is a very good starting point for creating final map, since program automate many tasks in map creation and reduce time to get desired final world political map.
 
 User can set map projection, map scale and map language. 
 
