@@ -1,20 +1,20 @@
 # OSMPoliticalMap
-Automaticaly generate World Political Map in QGIS from OpenStreetMap planet file (see example map https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
+Automatically generate the World Political Map in QGIS from the OpenStreetMap planet file (see example map https://github.com/GEOF-OSGL/OSMPoliticalMap/blob/master/World_political_map_A0_Croatian.pdf) .
 
-Set of bash and Python scripts for automatic generation of wall world political map in small scale (e.g. 1:30 000 000 for A0 paper). Map created is defined as QGIS project, and all data are stored in ESRI shapefiles.
+Set of bash and Python scripts for automatic generation of a wall world political map in small scale (e.g. 1:30 000 000 for A0 paper). The map created is being defined as a QGIS project, and all data are stored in ESRI shapefiles.
 
 ![alt tag](osm_political_map.png)
 
-This project intents to investigate how OpenStreetMap (OSM) planet file can be used for generating small scale "classical" maps, with example of World Political Map.
+This project intents to investigate how the OpenStreetMap (OSM) planet file can be used for generating small scale "classical" maps, with the example of the World Political Map.
 
-Main challanges are automated cartographic generalisation, as well as getting appropriate data from OSM for desired map. Processes will be improved in order to achieve better final result and performance. Also, inconsistencies in or missing OSM data are detected when data is processed which then can lead to edits in OSM.
+The main challenges are automated cartographic generalisation, as well as getting appropriate data from OSM for the desired map. The processes will be improved in order to achieve a better final result and performance. Also, inconsistencies in or missing OSM data are detected when data is being processed, which then can lead to edits in OSM.
 
-Resulting map is a very good starting point for creating final map, since program automate many tasks in map creation and reduce time to get desired final world political map.
+The resulting map is a very good starting point for creating a final map, since the program automates many tasks in map creation and reduces time to get the desired final World Political Map.
 
-User can set map projection, map scale and map language. 
+The user can set map projection as well as map scale and map language. 
 
 # Warning
-Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). Whole process of map generation can take many hours (~6 hrs in tested environment) on standard PC.
+Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). The whole process of map generation can take many hours (~6 hrs in tested environment) on a standard PC.
 
 # Tested environment:
 Debian GNU/Linux 8 (jessie) 64-bit, 
