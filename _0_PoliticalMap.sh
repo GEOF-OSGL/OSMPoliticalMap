@@ -67,7 +67,10 @@ echo "7 = oceans"
 echo "10 = all"
 
 read -p "Enter number for process [10]: " process
-
+if [ "$process" = "" ]
+then
+    process="10"
+fi
 echo
 echo "Done with setting map parameters."
 echo "Map scale: 1 :" $OSM_SCALE
