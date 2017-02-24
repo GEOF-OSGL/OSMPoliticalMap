@@ -19,6 +19,11 @@
 export OSM_DIR=./NEW_MAP
 #rm $OSM_DIR -rf
 mkdir $OSM_DIR
+cp ./PK/08_additional $OSM_DIR -R
+cp ./PK/MapDescription $OSM_DIR -R
+cp ./PK/QGISLayerStyleFiles $OSM_DIR -R
+cp ./PK/Reference_OSMPoliticalMap.qgs $OSM_DIR/OSM_World_Political_Map.qgs
+
 echo
 echo "WORLD POLITICAL MAP FROM OPENSTREETMAP DATA"
 echo "More info: http://github.com/GEOF-OSGL/OSMPoliticalMap"
