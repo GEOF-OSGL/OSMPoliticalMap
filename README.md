@@ -11,7 +11,7 @@ The main challenges are automated cartographic generalisation, as well as gettin
 
 The resulting map is a very good starting point for creating a final map, since the program automates many tasks in map creation and reduces time to get the desired final World Political Map.
 
-The user can set map projection as well as map scale and map language. 
+User can set map projection, map scale and map language before process starts. 
 
 # Warning
 Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). The whole process of map generation can take many hours (~6 hrs in tested environment) on a standard PC.
