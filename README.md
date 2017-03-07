@@ -14,7 +14,7 @@ The resulting map is a very good starting point for creating a final map, since 
 User can set map projection, map scale and map language before process starts. 
 
 # Warning
-Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). The whole process of map generation can take many hours (~6 hrs in tested environment) on a standard PC.
+Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). The whole process of map generation can take many hours (~6 hrs in tested environment) on a standard PC. Internet connection is needed during the data processing because list of entities with ISO-3166 code is retreived from 
 
 # Tested environment:
 Debian GNU/Linux 8 (jessie) 64-bit, 
