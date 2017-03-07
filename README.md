@@ -16,11 +16,13 @@ User can set map projection, map scale and map language before process starts.
 # Warning
 Running these scripts require downloading OSM planet file (~50GB) and filtering data from it (extra ~100GB needed). The whole process of map generation can take many hours (~6 hrs in tested environment) on a standard PC. Internet connection is needed during the data processing because list of entities with ISO-3166 code is retreived from https://raw.githubusercontent.com/datasets/country-list/master/data.csv.
 
-# Tested environment:
+# Tested environments:
 Debian GNU/Linux 8 (jessie) 64-bit, 
 Intel® Core™ i7-5500U CPU @ 2.40GHz × 4, 
 256 GB SSD, 
-16 GB RAM
+16 GB RAM, running time ~6 hrs
+
+Ubuntu 14.04 64-bit, Intel® Core™2 Quad Processor Q6600, 250 GB SATA, 8 GB RAM, running time ~18 hrs
 
 # Required packages:
 QGIS 2.4 or higher, 
