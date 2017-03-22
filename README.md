@@ -27,7 +27,7 @@ Ubuntu 14.04 64-bit, Intel® Core™2 Quad Processor Q6600, 250 GB SATA, 8 GB RA
 # Required packages:
 QGIS 2.4 or higher, 
 GRASS 6.4.3 or higher, 
-ogr2og2, 
+ogr2ogr, 
 GDAL/OGR library 2.1 or higher, 
 Python, 
 osmfilter, 
